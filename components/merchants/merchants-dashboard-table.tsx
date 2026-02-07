@@ -76,9 +76,9 @@ export function MerchantsDashboardTable({
     () => [
       {
         header: "Merchant",
-        accessorKey: "normalized_name",
+        accessorKey: "name",
         cell: ({ row }) => (
-          <div className="font-medium">{row.original.normalized_name}</div>
+          <div className="font-medium">{row.original.name}</div>
         ),
         size: 250,
       },
@@ -183,7 +183,7 @@ export function MerchantsDashboardTable({
     if (!merchants) return [];
     if (!nameFilter) return merchants;
     return merchants.filter((m) =>
-      m.normalized_name.toLowerCase().includes(nameFilter.toLowerCase())
+      m.name.toLowerCase().includes(nameFilter.toLowerCase())
     );
   }, [merchants, nameFilter]);
 
