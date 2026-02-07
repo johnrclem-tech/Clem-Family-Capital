@@ -46,8 +46,19 @@ export async function createLinkToken(userId: string, webhookUrl?: string) {
     });
 
     return response.data;
-  } catch (error) {
+  } catch (error: any) {
     console.error("Error creating link token:", error);
+    const errorDetails = {
+      message: error?.message,
+      statusCode: error?.response?.status,
+      statusText: error?.response?.statusText,
+      plaidErrorCode: error?.response?.data?.error_code,
+      plaidErrorType: error?.response?.data?.error_type,
+      plaidErrorMessage: error?.response?.data?.error_message,
+      displayMessage: error?.response?.data?.display_message,
+      fullResponse: error?.response?.data,
+    };
+    console.error("Plaid Link Token Error Details:", JSON.stringify(errorDetails, null, 2));
     throw error;
   }
 }
