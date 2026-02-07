@@ -269,11 +269,13 @@ export async function POST(request: NextRequest) {
       } catch (syncError) {
         console.error(`Error syncing item ${itemId}:`, syncError);
         
-        // Update item with error status
-        database.updatePlaidItem(item.id, {
-          sync_status: "error",
-          error_message: syncError instanceof Error ? syncError.message : "Unknown error",
-        });
+        // Update all accounts for this item with error status
+        for (const account of accounts) {
+          database.updatePlaidItem(account.id, {
+            sync_status: "error",
+            error_message: syncError instanceof Error ? syncError.message : "Unknown error",
+          });
+        }
 
         return NextResponse.json(
           {
