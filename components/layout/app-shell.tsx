@@ -4,7 +4,6 @@ import * as React from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import {
-  LayoutDashboard,
   Receipt,
   TrendingUp,
   Building2,
@@ -76,11 +75,6 @@ import { useSync } from "@/components/layout/sync-context";
 
 const navigationItems = [
   {
-    title: "Dashboard",
-    icon: LayoutDashboard,
-    href: "/",
-  },
-  {
     title: "Transactions",
     icon: Receipt,
     href: "/transactions",
@@ -143,7 +137,7 @@ export function AppShell({ children }: AppShellProps) {
     
     // Extract page name from pathname (e.g., "/accounts" -> "Accounts")
     if (path === "/") {
-      return "Dashboard";
+      return "Home";
     }
     
     // Capitalize first letter and replace hyphens with spaces
@@ -156,8 +150,8 @@ export function AppShell({ children }: AppShellProps) {
         .join(" ");
     }
     
-    // Fallback to Dashboard
-    return "Dashboard";
+    // Fallback to Home
+    return "Home";
   };
   
   // Get the active page title
@@ -303,24 +297,6 @@ export function AppShell({ children }: AppShellProps) {
           </SidebarHeader>
 
           <SidebarContent>
-            {/* Dashboard - No Group */}
-            <SidebarGroup>
-              <SidebarMenu>
-                <SidebarMenuItem>
-                  <SidebarMenuButton
-                    asChild
-                    isActive={pathname === "/"}
-                    tooltip="Dashboard"
-                  >
-                    <Link href="/">
-                      <LayoutDashboard className="size-4" />
-                      <span>Dashboard</span>
-                    </Link>
-                  </SidebarMenuButton>
-                </SidebarMenuItem>
-              </SidebarMenu>
-            </SidebarGroup>
-
             {/* Accounts Group */}
             <SidebarGroup>
               <SidebarGroupLabel>Accounts</SidebarGroupLabel>

@@ -7,7 +7,6 @@ import { createColumns } from "@/components/transactions/columns";
 import { AccountSettingsModal } from "@/components/accounts/account-settings-modal";
 import { MerchantsDashboardTable } from "@/components/merchants/merchants-dashboard-table";
 import { MerchantCategoryTable } from "@/components/categories/merchant-category-table";
-import DashboardContent from "@/components/dashboard/dashboard-content";
 import { TransactionEnriched, PlaidItem, Category, Tag, MerchantWithStats } from "@/lib/database";
 import { AccountType } from "@/lib/account-types";
 import { RefreshCw } from "lucide-react";
@@ -30,7 +29,6 @@ export default function HomePage() {
   // Navigation state
   const [selectedAccountId, setSelectedAccountId] = React.useState<string | null>(null);
   const [selectedGroupType, setSelectedGroupType] = React.useState<AccountType | null>(null);
-  const [showDashboardView, setShowDashboardView] = React.useState(false);
   const [showCategoriesView, setShowCategoriesView] = React.useState(false);
   const [showMerchantsView, setShowMerchantsView] = React.useState(false);
   const [merchantsWithStats, setMerchantsWithStats] = React.useState<MerchantWithStats[]>([]);
@@ -290,7 +288,6 @@ export default function HomePage() {
   const handleSelectAll = () => {
     setSelectedAccountId(null);
     setSelectedGroupType(null);
-    setShowDashboardView(false);
     setShowCategoriesView(false);
     setShowMerchantsView(false);
   };
@@ -298,7 +295,6 @@ export default function HomePage() {
   const handleSelectGroup = (type: AccountType) => {
     setSelectedAccountId(null);
     setSelectedGroupType(type);
-    setShowDashboardView(false);
     setShowCategoriesView(false);
     setShowMerchantsView(false);
   };
@@ -306,15 +302,6 @@ export default function HomePage() {
   const handleSelectAccount = (accountId: string) => {
     setSelectedAccountId(accountId);
     setSelectedGroupType(null);
-    setShowDashboardView(false);
-    setShowCategoriesView(false);
-    setShowMerchantsView(false);
-  };
-
-  const handleSelectDashboard = () => {
-    setSelectedAccountId(null);
-    setSelectedGroupType(null);
-    setShowDashboardView(true);
     setShowCategoriesView(false);
     setShowMerchantsView(false);
   };
@@ -322,7 +309,6 @@ export default function HomePage() {
   const handleSelectCategories = () => {
     setSelectedAccountId(null);
     setSelectedGroupType(null);
-    setShowDashboardView(false);
     setShowCategoriesView(true);
     setShowMerchantsView(false);
   };
@@ -330,7 +316,6 @@ export default function HomePage() {
   const handleSelectMerchants = () => {
     setSelectedAccountId(null);
     setSelectedGroupType(null);
-    setShowDashboardView(false);
     setShowCategoriesView(false);
     setShowMerchantsView(true);
   };
@@ -407,9 +392,6 @@ export default function HomePage() {
 
   // Get current view title and selected account
   const viewTitle = React.useMemo(() => {
-    if (showDashboardView) {
-      return "Dashboard";
-    }
     if (showCategoriesView) {
       return "Categories";
     }
@@ -423,7 +405,7 @@ export default function HomePage() {
       return `${selectedGroupType} Accounts`;
     }
     return "All Transactions";
-  }, [showDashboardView, showCategoriesView, showMerchantsView, selectedAccountId, selectedGroupType, accounts]);
+  }, [showCategoriesView, showMerchantsView, selectedAccountId, selectedGroupType, accounts]);
 
   const selectedAccount = React.useMemo(() => {
     if (selectedAccountId) {
@@ -573,8 +555,6 @@ export default function HomePage() {
                 <p className="text-muted-foreground">Loading transactions...</p>
               </div>
             </div>
-          ) : showDashboardView ? (
-            <DashboardContent />
           ) : showCategoriesView ? (
             <MerchantCategoryTable
               onClose={() => setShowCategoriesView(false)}
@@ -596,7 +576,7 @@ export default function HomePage() {
           ) : (
             <>
               {/* Stats Text */}
-              {!showDashboardView && !showCategoriesView && !showMerchantsView && (
+              {!showCategoriesView && !showMerchantsView && (
                 <div className="flex items-center gap-4 text-sm mb-4">
                   {stats.uncategorized > 0 && (
                     <span className="flex items-center gap-1.5">
