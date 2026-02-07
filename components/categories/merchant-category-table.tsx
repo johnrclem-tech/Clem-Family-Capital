@@ -120,23 +120,6 @@ export function MerchantCategoryTable({
         size: 200,
       },
       {
-        header: "PFC Mappings",
-        accessorKey: "plaid_pfc_codes",
-        cell: ({ row }) => {
-          const count = row.original.plaid_pfc_codes?.length || 0;
-          return (
-            <div className="text-center">
-              {count > 0 ? (
-                <Badge variant="secondary">{count} mapped</Badge>
-              ) : (
-                <span className="text-muted-foreground text-sm">None</span>
-              )}
-            </div>
-          );
-        },
-        size: 150,
-      },
-      {
         header: "Created",
         accessorKey: "created_at",
         cell: ({ row }) => {
