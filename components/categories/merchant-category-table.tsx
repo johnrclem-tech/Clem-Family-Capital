@@ -102,10 +102,10 @@ export function MerchantCategoryTable({
       },
       {
         header: "Parent Category",
-        accessorKey: "parent_category_id",
+        accessorKey: "parent_id",
         cell: ({ row }) => {
           const parent = parentCategories.find(
-            (p) => p.id === row.original.parent_category_id
+            (p) => p.id === row.original.parent_id
           );
           return (
             <div>
