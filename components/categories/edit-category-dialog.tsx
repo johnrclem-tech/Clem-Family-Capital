@@ -12,7 +12,13 @@ import {
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Select } from "@/components/ui/select";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { Category } from "@/lib/database";
 
 interface EditCategoryDialogProps {
@@ -120,16 +126,20 @@ export function EditCategoryDialog({
           <div className="space-y-2">
             <Label htmlFor="parent">Parent Category</Label>
             <Select
-              id="parent"
               value={parentId}
-              onChange={(e) => setParentId(e.target.value)}
+              onValueChange={setParentId}
             >
-              <option value="">None (Top-level category)</option>
-              {parentCategories.map((cat) => (
-                <option key={cat.id} value={cat.id}>
-                  📁 {cat.name}
-                </option>
-              ))}
+              <SelectTrigger>
+                <SelectValue placeholder="None (Top-level category)" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="">None (Top-level category)</SelectItem>
+                {parentCategories.map((cat) => (
+                  <SelectItem key={cat.id} value={cat.id}>
+                    📁 {cat.name}
+                  </SelectItem>
+                ))}
+              </SelectContent>
             </Select>
             <p className="text-sm text-muted-foreground">
               {isParent
