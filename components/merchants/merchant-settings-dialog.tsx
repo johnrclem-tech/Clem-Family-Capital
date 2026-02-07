@@ -11,7 +11,13 @@ import {
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Select } from "@/components/ui/select";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
 import { Textarea } from "@/components/ui/textarea";
@@ -191,17 +197,20 @@ export function MerchantSettingsDialog({
               <div>
                 <Label htmlFor="default-category">Default Category</Label>
                 <Select
-                  id="default-category"
                   value={defaultCategoryId}
-                  onChange={(e) => setDefaultCategoryId(e.target.value)}
-                  className="mt-1.5"
+                  onValueChange={setDefaultCategoryId}
                 >
-                  <option value="">None</option>
-                  {categories.map((cat) => (
-                    <option key={cat.id} value={cat.id}>
-                      {cat.name}
-                    </option>
-                  ))}
+                  <SelectTrigger className="mt-1.5">
+                    <SelectValue placeholder="None" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="">None</SelectItem>
+                    {categories.map((cat) => (
+                      <SelectItem key={cat.id} value={cat.id}>
+                        {cat.name}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
                 </Select>
               </div>
 
@@ -221,16 +230,19 @@ export function MerchantSettingsDialog({
               <div>
                 <Label htmlFor="confidence-level">Confidence Level</Label>
                 <Select
-                  id="confidence-level"
                   value={confidenceLevel}
-                  onChange={(e) => setConfidenceLevel(e.target.value)}
-                  className="mt-1.5"
+                  onValueChange={setConfidenceLevel}
                 >
-                  <option value="">None</option>
-                  <option value="VERY_HIGH">Very High</option>
-                  <option value="HIGH">High</option>
-                  <option value="MEDIUM">Medium</option>
-                  <option value="LOW">Low</option>
+                  <SelectTrigger className="mt-1.5">
+                    <SelectValue placeholder="None" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="">None</SelectItem>
+                    <SelectItem value="VERY_HIGH">Very High</SelectItem>
+                    <SelectItem value="HIGH">High</SelectItem>
+                    <SelectItem value="MEDIUM">Medium</SelectItem>
+                    <SelectItem value="LOW">Low</SelectItem>
+                  </SelectContent>
                 </Select>
               </div>
             </div>
