@@ -1,0 +1,230 @@
+# ShadCN Table Styling Standards
+
+This rule ensures all data tables follow ShadCN's Modern Minimal styling approach exactly.
+
+## Core Principles
+
+1. **Consistent Typography**: Use the base table component styling without ad-hoc font overrides
+2. **Semantic Styling**: Let the component system handle typography, not individual columns
+3. **Minimal Classes**: Only add classes for layout (truncate, text-right) or semantic meaning
+4. **No Font Overrides**: Never override font-weight, font-size, or text colors in column cells unless absolutely necessary
+
+## Table Component Classes
+
+### Base Table Structure
+```tsx
+<div className="space-y-4">
+  <DataTableToolbar table={table} />
+  <div className="rounded-md border">
+    <Table>
+      <TableHeader>
+        <TableRow>
+          <TableHead>...</TableHead>
+        </TableRow>
+      </TableHeader>
+      <TableBody>
+        <TableRow>
+          <TableCell>...</TableCell>
+        </TableRow>
+      </TableBody>
+    </Table>
+  </div>
+  <DataTablePagination table={table} />
+</div>
+```
+
+### ShadCN Table Component Default Classes
+
+- **Table**: `w-full caption-bottom text-sm`
+- **TableHead**: `h-10 px-2 text-left align-middle font-medium text-muted-foreground`
+- **TableCell**: `p-2 align-middle`
+- **TableRow**: `border-b hover:bg-muted/50 data-[state=selected]:bg-muted`
+
+## Column Cell Styling Rules
+
+### ✅ DO: Use Minimal Styling
+
+```tsx
+// Good: Minimal, semantic styling
+cell: ({ row }) => (
+  <div className="truncate">{row.getValue("name")}</div>
+)
+
+// Good: Layout classes only
+cell: ({ row }) => (
+  <div className="text-right">{formatCurrency(amount)}</div>
+)
+
+// Good: Semantic meaning (monospace for IDs)
+cell: ({ row }) => (
+  <div className="font-mono">{row.getValue("id")}</div>
+)
+```
+
+### ❌ DON'T: Override Typography
+
+```tsx
+// Bad: Ad-hoc font overrides
+cell: ({ row }) => (
+  <div className="text-sm font-medium text-foreground">...</div>
+)
+
+// Bad: Unnecessary color overrides
+cell: ({ row }) => (
+  <div className="text-sm text-muted-foreground">...</div>
+)
+
+// Bad: Font weight overrides
+cell: ({ row }) => (
+  <span className="font-normal">...</span>
+)
+```
+
+## Allowed Classes in Column Cells
+
+### Layout Classes
+- `truncate` - For text overflow
+- `text-right` - For numeric alignment
+- `text-center` - For centered content
+- `capitalize` - For text transformation
+
+### Semantic Classes
+- `font-mono` - For IDs, codes, technical data
+- `text-destructive` - For error states only
+- `text-muted-foreground` - Only when content is truly secondary/optional
+
+### Interactive Classes
+- `cursor-pointer` - For clickable cells
+- `hover:bg-muted/50` - For hover states on interactive cells
+
+## Header Styling
+
+### DataTableColumnHeader Component
+- Uses a `div` with click handlers (NOT a Button component)
+- Inherits font size from `TableHead` (`text-sm`), matching table cells exactly
+- Uses `cursor-pointer` and keyboard handlers for accessibility
+- This ensures consistent typography between headers and cells
+
+```tsx
+<div
+  className="flex h-full cursor-pointer items-center justify-between gap-2 select-none"
+  onClick={column.getToggleSortingHandler()}
+  onKeyDown={(e) => {
+    if (e.key === "Enter" || e.key === " ") {
+      e.preventDefault()
+      column.getToggleSortingHandler()?.(e)
+    }
+  }}
+  tabIndex={0}
+>
+  <span>{title}</span>
+  {/* Sort icons */}
+</div>
+```
+
+**Why not Button?**
+- Button's `size="sm"` applies `text-xs`, which is smaller than table's `text-sm`
+- Using a `div` inherits `text-sm` from `TableHead`, matching cells perfectly
+- This is the pattern used in ShadCN's examples and other tables in the codebase
+
+## Color Usage
+
+### Default Colors
+- **Primary text**: Inherit from `TableCell` (no class needed)
+- **Secondary text**: Use `text-muted-foreground` sparingly, only for truly optional/secondary info
+- **Errors**: Use `text-destructive` for error states only
+
+### ❌ Avoid Hardcoded Colors
+```tsx
+// Bad: Hardcoded Tailwind colors
+className="text-green-600"
+className="text-red-600"
+className="text-blue-600"
+
+// Good: Use semantic colors or no color class
+className="text-destructive" // Only for errors
+// Or no color class - inherit from table
+```
+
+## Examples
+
+### Standard Text Cell
+```tsx
+cell: ({ row }) => (
+  <div className="truncate">{row.getValue("name")}</div>
+)
+```
+
+### Numeric Cell (Right-aligned)
+```tsx
+cell: ({ row }) => (
+  <div className="text-right">{formatCurrency(amount)}</div>
+)
+```
+
+### ID/Code Cell (Monospace)
+```tsx
+cell: ({ row }) => (
+  <div className="font-mono truncate">{row.getValue("id")}</div>
+)
+```
+
+### Empty State
+```tsx
+cell: ({ row }) => {
+  const value = row.getValue("field")
+  return <div>{value || "-"}</div>
+}
+```
+
+### Interactive Cell
+```tsx
+cell: ({ row }) => (
+  <div 
+    className="cursor-pointer hover:bg-muted/50 p-1 rounded truncate"
+    onClick={() => handleClick(row)}
+  >
+    {row.getValue("name")}
+  </div>
+)
+```
+
+## Font System
+
+### Base Font
+- Uses system fonts: `ui-sans-serif, system-ui, sans-serif`
+- Defined in `app/globals.css` on the `body` element
+- No custom font imports should override this
+
+### Font Sizes
+- Base: Inherited from `Table` component (`text-sm`)
+- Headers: Inherited from `TableHead` component
+- Cells: Inherited from `Table` component
+- **Never override** with `text-xs`, `text-base`, `text-lg`, etc. in column cells
+
+## Checklist for New Columns
+
+When adding a new column, ensure:
+
+- [ ] No `text-sm`, `text-xs`, `text-base` classes
+- [ ] No `font-medium`, `font-normal`, `font-bold` classes
+- [ ] No `text-foreground`, `text-muted-foreground` unless semantically necessary
+- [ ] Only layout classes (`truncate`, `text-right`, `text-center`)
+- [ ] Only semantic classes (`font-mono` for IDs, `text-destructive` for errors)
+- [ ] Empty states use simple `-` without color classes
+- [ ] Interactive cells use `cursor-pointer` and `hover:bg-muted/50`
+
+## Migration Notes
+
+If you see ad-hoc font styling in columns:
+1. Remove `text-sm`, `text-xs`, `text-base` classes
+2. Remove `font-medium`, `font-normal`, `font-bold` classes  
+3. Remove `text-foreground` classes (inherit from table)
+4. Remove `text-muted-foreground` unless content is truly secondary
+5. Keep only layout (`truncate`, `text-right`) and semantic (`font-mono`) classes
+
+## References
+
+- ShadCN Table Component: `components/ui/table.tsx`
+- ShadCN Table Documentation: https://ui.shadcn.com/docs/components/table
+- Modern Minimal Theme: Uses system fonts for native feel

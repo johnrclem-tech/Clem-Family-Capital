@@ -1,0 +1,539 @@
+/**
+ * Script to populate investment test data from Plaid sandbox JSON
+ * 
+ * Usage:
+ *   node scripts/populate-investment-test-data.js
+ * 
+ * Or use the API endpoint directly:
+ *   curl -X POST http://localhost:3000/api/test-data/populate-investments \
+ *     -H "Content-Type: application/json" \
+ *     -d @test-data.json
+ */
+
+const testData = {
+    "override_accounts": [
+        {
+            "type": "investment",
+            "subtype": "brokerage",
+            "starting_balance": 120,
+            "force_available_balance": 120,
+            "meta": {
+                "name": "Brokerage Test Account"
+            },
+            "identity": {
+                "names": [
+                    "John Smith"
+                ],
+                "phone_numbers": [
+                    {
+                        "primary": true,
+                        "type": "mobile",
+                        "data": "9084581209"
+                    }
+                ],
+                "emails": [
+                    {
+                        "primary": true,
+                        "type": "primary",
+                        "data": "jsmith@plaid.com"
+                    }
+                ],
+                "addresses": [
+                    {
+                        "primary": true,
+                        "data": {
+                            "country": "US",
+                            "city": "New York",
+                            "street": "10003 Broadway Road",
+                            "postal_code": "10003",
+                            "region": "NY"
+                        }
+                    }
+                ]
+            },
+            "holdings": [
+                {
+                    "institution_price": 140.4,
+                    "institution_price_as_of": "2025-11-15",
+                    "quantity": 12,
+                    "currency": "USD",
+                    "security": {
+                        "ticker_symbol": "AAPL",
+                        "currency": "USD"
+                    }
+                },
+                {
+                    "institution_price": 10.43,
+                    "institution_price_as_of": "2025-02-14",
+                    "cost_basis": 10.43,
+                    "quantity": 10,
+                    "currency": "USD",
+                    "security": {
+                        "ticker_symbol": "PAGP",
+                        "currency": "USD"
+                    }
+                },
+                {
+                    "institution_price": 2228.23,
+                    "institution_price_as_of": "2025-03-21",
+                    "cost_basis": 2228.23,
+                    "quantity": 8,
+                    "currency": "USD",
+                    "security": {
+                        "ticker_symbol": "GOOGL",
+                        "currency": "USD"
+                    }
+                },
+                {
+                    "institution_price": 91.78,
+                    "institution_price_as_of": "2025-04-06",
+                    "cost_basis": 91.78,
+                    "quantity": 17,
+                    "currency": "USD",
+                    "security": {
+                        "ticker_symbol": "CHD",
+                        "currency": "USD"
+                    }
+                },
+                {
+                    "institution_price": 108.6,
+                    "institution_price_as_of": "2025-05-27",
+                    "cost_basis": 108.6,
+                    "quantity": 100,
+                    "currency": "USD",
+                    "security": {
+                        "ticker_symbol": "AMZN",
+                        "currency": "USD"
+                    }
+                },
+                {
+                    "institution_price": 369.82,
+                    "institution_price_as_of": "2025-06-23",
+                    "cost_basis": 29.36,
+                    "quantity": 5,
+                    "currency": "USD",
+                    "security": {
+                        "ticker_symbol": "TDY",
+                        "currency": "USD"
+                    }
+                },
+                {
+                    "institution_price": 19999.54,
+                    "institution_price_as_of": "2025-07-06",
+                    "cost_basis": 120.03,
+                    "quantity": 0.00293644,
+                    "currency": "USD",
+                    "security": {
+                        "ticker_symbol": "CUR:BTC",
+                        "currency": "USD"
+                    }
+                },
+                {
+                    "institution_price": 13.35,
+                    "institution_price_as_of": "2026-02-03",
+                    "cost_basis": 13.35,
+                    "quantity": 20,
+                    "currency": "USD",
+                    "security": {
+                        "ticker_symbol": "AMC",
+                        "currency": "USD"
+                    }
+                },
+                {
+                    "institution_price": 495.72,
+                    "institution_price_as_of": "2025-07-16",
+                    "cost_basis": 495.72,
+                    "quantity": 12,
+                    "currency": "USD",
+                    "security": {
+                        "ticker_symbol": "BIO",
+                        "currency": "USD"
+                    }
+                },
+                {
+                    "institution_price": 11.43,
+                    "institution_price_as_of": "2025-08-02",
+                    "cost_basis": 11.43,
+                    "quantity": 20,
+                    "currency": "USD",
+                    "security": {
+                        "ticker_symbol": "F",
+                        "currency": "USD"
+                    }
+                },
+                {
+                    "institution_price": 670.81,
+                    "institution_price_as_of": "2025-07-04",
+                    "cost_basis": 670.81,
+                    "quantity": 23,
+                    "currency": "USD",
+                    "security": {
+                        "ticker_symbol": "TSLA",
+                        "currency": "USD"
+                    }
+                },
+                {
+                    "institution_price": 5.51,
+                    "institution_price_as_of": "2025-02-07",
+                    "cost_basis": 5.51,
+                    "quantity": 9,
+                    "currency": "USD",
+                    "security": {
+                        "ticker_symbol": "GPRO",
+                        "currency": "USD"
+                    }
+                },
+                {
+                    "institution_price": 114.07,
+                    "institution_price_as_of": "2025-03-11",
+                    "cost_basis": 114.07,
+                    "quantity": 3,
+                    "currency": "USD",
+                    "security": {
+                        "ticker_symbol": "PAYX",
+                        "currency": "USD"
+                    }
+                },
+                {
+                    "institution_price": 70.04,
+                    "institution_price_as_of": "2025-04-21",
+                    "cost_basis": 70.04,
+                    "quantity": 19,
+                    "currency": "USD",
+                    "security": {
+                        "ticker_symbol": "XEL",
+                        "currency": "USD"
+                    }
+                },
+                {
+                    "institution_price": 142.99,
+                    "institution_price_as_of": "2025-05-30",
+                    "cost_basis": 142.99,
+                    "quantity": 30,
+                    "currency": "USD",
+                    "security": {
+                        "ticker_symbol": "MRNA",
+                        "currency": "USD"
+                    }
+                },
+                {
+                    "institution_price": 78.85,
+                    "institution_price_as_of": "2025-06-11",
+                    "cost_basis": 78.85,
+                    "quantity": 11,
+                    "currency": "USD",
+                    "security": {
+                        "ticker_symbol": "D",
+                        "currency": "USD"
+                    }
+                },
+                {
+                    "institution_price": 20.83,
+                    "institution_price_as_of": "2025-07-21",
+                    "cost_basis": 20.83,
+                    "quantity": 13,
+                    "currency": "USD",
+                    "security": {
+                        "ticker_symbol": "T",
+                        "currency": "USD"
+                    }
+                },
+                {
+                    "institution_price": 5.9,
+                    "institution_price_as_of": "2025-03-05",
+                    "cost_basis": 5.9,
+                    "quantity": 20,
+                    "currency": "USD",
+                    "security": {
+                        "ticker_symbol": "F241108C00005000",
+                        "currency": "USD"
+                    }
+                }
+            ],
+            "investment_transactions": [
+                {
+                    "date": "2025-11-05",
+                    "name": "buy stock",
+                    "quantity": 10,
+                    "price": 10,
+                    "fees": 20,
+                    "type": "buy",
+                    "currency": "USD",
+                    "security": {
+                        "ticker_symbol": "PLAID",
+                        "currency": "USD"
+                    }
+                },
+                {
+                    "date": "2025-11-05",
+                    "name": "buy options",
+                    "quantity": 10,
+                    "price": 10,
+                    "fees": 20,
+                    "type": "buy",
+                    "currency": "USD",
+                    "security": {
+                        "ticker_symbol": "F241108C00005000",
+                        "currency": "USD"
+                    }
+                },
+                {
+                    "date": "2025-11-19",
+                    "name": "buy stock",
+                    "quantity": 15,
+                    "price": 10,
+                    "fees": 20,
+                    "type": "buy",
+                    "currency": "USD",
+                    "security": {
+                        "ticker_symbol": "PLAID",
+                        "currency": "USD"
+                    }
+                },
+                {
+                    "date": "2025-07-15",
+                    "name": "buy stock",
+                    "quantity": 10,
+                    "price": 2898.32,
+                    "fees": 20,
+                    "type": "buy",
+                    "currency": "USD",
+                    "security": {
+                        "ticker_symbol": "GOOGL",
+                        "currency": "USD"
+                    }
+                },
+                {
+                    "date": "2025-07-20",
+                    "name": "buy stock",
+                    "quantity": 160,
+                    "price": 121.45,
+                    "fees": 20,
+                    "type": "buy",
+                    "currency": "USD",
+                    "security": {
+                        "ticker_symbol": "NET",
+                        "currency": "USD"
+                    }
+                },
+                {
+                    "date": "2025-07-17",
+                    "name": "buy stock",
+                    "quantity": 29,
+                    "price": 120.03,
+                    "fees": 4.25,
+                    "type": "buy",
+                    "currency": "USD",
+                    "security": {
+                        "ticker_symbol": "AMZN",
+                        "currency": "USD"
+                    }
+                },
+                {
+                    "date": "2025-07-21",
+                    "name": "buy stock",
+                    "quantity": 23,
+                    "price": 125.03,
+                    "fees": 4.25,
+                    "type": "buy",
+                    "currency": "USD",
+                    "security": {
+                        "ticker_symbol": "AA",
+                        "currency": "USD"
+                    }
+                },
+                {
+                    "date": "2025-07-25",
+                    "name": "buy stock",
+                    "quantity": 36,
+                    "price": 120.03,
+                    "fees": 4.25,
+                    "type": "buy",
+                    "currency": "USD",
+                    "security": {
+                        "ticker_symbol": "NYA",
+                        "currency": "USD"
+                    }
+                },
+                {
+                    "date": "2025-07-07",
+                    "name": "buy stock in cash",
+                    "quantity": 12,
+                    "price": 80,
+                    "fees": 1,
+                    "type": "cash",
+                    "currency": "USD",
+                    "security": {
+                        "ticker_symbol": "FN",
+                        "currency": "USD"
+                    }
+                },
+                {
+                    "date": "2025-07-16",
+                    "name": "buy stock in cash",
+                    "quantity": 25,
+                    "price": 110,
+                    "fees": 1,
+                    "type": "cash",
+                    "currency": "USD",
+                    "security": {
+                        "ticker_symbol": "CE",
+                        "currency": "USD"
+                    }
+                },
+                {
+                    "date": "2025-07-26",
+                    "name": "buy stock in cash",
+                    "quantity": 30,
+                    "price": 170,
+                    "fees": 4,
+                    "type": "cash",
+                    "currency": "USD",
+                    "security": {
+                        "ticker_symbol": "MRNA",
+                        "currency": "USD"
+                    }
+                },
+                {
+                    "date": "2025-07-19",
+                    "name": "buy stock in cash",
+                    "quantity": 10,
+                    "price": 200,
+                    "fees": 0,
+                    "type": "cash",
+                    "currency": "USD",
+                    "security": {
+                        "ticker_symbol": "GD",
+                        "currency": "USD"
+                    }
+                },
+                {
+                    "date": "2025-07-26",
+                    "name": "buy stock in cash-fee",
+                    "quantity": 30,
+                    "price": 170,
+                    "fees": 4,
+                    "type": "fee",
+                    "currency": "USD",
+                    "security": {
+                        "ticker_symbol": "MRNA",
+                        "currency": "USD"
+                    }
+                },
+                {
+                    "date": "2025-07-07",
+                    "name": "buy stock in cash",
+                    "quantity": 12,
+                    "price": 80,
+                    "fees": 1,
+                    "type": "fee",
+                    "currency": "USD",
+                    "security": {
+                        "ticker_symbol": "FN",
+                        "currency": "USD"
+                    }
+                },
+                {
+                    "date": "2025-07-16",
+                    "name": "buy stock in cash",
+                    "quantity": 25,
+                    "price": 110,
+                    "fees": 1,
+                    "type": "fee",
+                    "currency": "USD",
+                    "security": {
+                        "ticker_symbol": "CE",
+                        "currency": "USD"
+                    }
+                },
+                {
+                    "date": "2025-08-01",
+                    "name": "transfer amount",
+                    "quantity": 12,
+                    "price": 125.98,
+                    "fees": 6.55,
+                    "type": "transfer",
+                    "currency": "USD",
+                    "security": {
+                        "ticker_symbol": "AMZN",
+                        "currency": "USD"
+                    }
+                },
+                {
+                    "date": "2025-08-02",
+                    "name": "transfer amount",
+                    "quantity": 7,
+                    "price": 150.23,
+                    "fees": 6.25,
+                    "type": "transfer",
+                    "currency": "USD",
+                    "security": {
+                        "ticker_symbol": "AA",
+                        "currency": "USD"
+                    }
+                },
+                {
+                    "date": "2025-08-03",
+                    "name": "transfer amount",
+                    "quantity": 10,
+                    "price": 170,
+                    "fees": 4,
+                    "type": "transfer",
+                    "currency": "USD",
+                    "security": {
+                        "ticker_symbol": "MRNA",
+                        "currency": "USD"
+                    }
+                }
+            ]
+        }
+    ]
+};
+
+// If running as a script, make a fetch request to the API
+if (typeof window === 'undefined' && require.main === module) {
+    const http = require('http');
+    const data = JSON.stringify(testData);
+    
+    const options = {
+        hostname: 'localhost',
+        port: 3000,
+        path: '/api/test-data/populate-investments',
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Content-Length': Buffer.byteLength(data)
+        }
+    };
+
+    const req = http.request(options, (res) => {
+        let responseData = '';
+        res.on('data', (chunk) => {
+            responseData += chunk;
+        });
+        res.on('end', () => {
+            console.log('Response:', responseData);
+            try {
+                const parsed = JSON.parse(responseData);
+                if (parsed.success) {
+                    console.log('✅ Successfully populated investment test data!');
+                    console.log(`   - Securities created: ${parsed.data.securitiesCreated}`);
+                    console.log(`   - Transactions created: ${parsed.data.transactionsCreated}`);
+                } else {
+                    console.error('❌ Error:', parsed.error);
+                }
+            } catch (e) {
+                console.error('Error parsing response:', e);
+            }
+        });
+    });
+
+    req.on('error', (error) => {
+        console.error('Request error:', error);
+    });
+
+    req.write(data);
+    req.end();
+}
+
+module.exports = testData;
