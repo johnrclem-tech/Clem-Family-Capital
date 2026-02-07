@@ -34,7 +34,7 @@ export const plaidLinkConfig = {
 /**
  * Create a Link token for Plaid Link initialization
  */
-export async function createLinkToken(userId: string) {
+export async function createLinkToken(userId: string, webhookUrl?: string) {
   try {
     const response = await plaidClient.linkTokenCreate({
       user: { client_user_id: userId },
@@ -42,6 +42,7 @@ export async function createLinkToken(userId: string) {
       products: plaidLinkConfig.products as Products[],
       country_codes: plaidLinkConfig.countryCodes as CountryCode[],
       language: "en",
+      webhook: webhookUrl, // Configure webhook URL for transaction updates
     });
 
     return response.data;
