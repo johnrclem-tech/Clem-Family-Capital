@@ -222,7 +222,7 @@ export function TransactionDetailSheet({
               <MerchantCombobox
                 value={editedTransaction.merchant_name || ""}
                 onChange={handleMerchantChange}
-                onSettingsClick={handleMerchantSettingsClick}
+                onManageMerchants={handleMerchantSettingsClick}
                 merchantNames={merchantNames}
                 className="mt-1.5"
               />
