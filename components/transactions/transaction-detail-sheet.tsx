@@ -3,7 +3,13 @@
 import * as React from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Select } from "@/components/ui/select";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { TransactionEnriched, Merchant } from "@/lib/database";
 import { formatCurrency, formatDate, cn } from "@/lib/utils";
 import { Save, Split } from "lucide-react";
@@ -226,20 +232,24 @@ export function TransactionDetailSheet({
               <label className="text-xs font-medium text-muted-foreground uppercase tracking-wide">Category</label>
               <Select
                 value={editedTransaction.category_id || ""}
-                onChange={(e) =>
+                onValueChange={(value) =>
                   setEditedTransaction((prev) => ({
                     ...prev,
-                    category_id: e.target.value || null,
+                    category_id: value || null,
                   }))
                 }
-                className="mt-1.5"
               >
-                <option value="">Uncategorized</option>
-                {categories.map((cat) => (
-                  <option key={cat.id} value={cat.id}>
-                    {cat.name}
-                  </option>
-                ))}
+                <SelectTrigger className="mt-1.5">
+                  <SelectValue placeholder="Uncategorized" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="">Uncategorized</SelectItem>
+                  {categories.map((cat) => (
+                    <SelectItem key={cat.id} value={cat.id}>
+                      {cat.name}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
               </Select>
             </div>
 
