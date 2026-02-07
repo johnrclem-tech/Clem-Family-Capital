@@ -11,12 +11,9 @@ interface SheetProps extends React.ComponentPropsWithoutRef<typeof SheetPrimitiv
   modal?: boolean
 }
 
-const Sheet = React.forwardRef<
-  React.ElementRef<typeof SheetPrimitive.Root>,
-  SheetProps
->(({ modal = true, ...props }, ref) => (
+const Sheet = ({ modal = true, ...props }: SheetProps) => (
   <SheetPrimitive.Root modal={modal} {...props} />
-))
+)
 Sheet.displayName = "Sheet"
 
 const SheetTrigger = SheetPrimitive.Trigger
