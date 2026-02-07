@@ -87,7 +87,7 @@ export function MerchantCategoryTable({
 
   const parentCategories = useMemo(() => {
     if (!categories) return [];
-    return categories.filter((c) => !c.parent_category_id);
+    return categories.filter((c) => c.is_parent_category);
   }, [categories]);
 
   const columns = useMemo<ColumnDef<Category>[]>(
