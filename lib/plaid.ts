@@ -26,7 +26,7 @@ export const plaidClient = new PlaidApi(configuration);
 // Plaid Link configuration
 export const plaidLinkConfig = {
   clientName: "Clem Finance Tagger",
-  products: [Products.Transactions, Products.Investments], // Transactions for transaction data, Investments for investment accounts
+  products: [Products.Transactions], // Transactions product covers all account types including investments
   countryCodes: [CountryCode.Us],
   language: "en",
 };
