@@ -3,20 +3,21 @@ import { database } from "@/lib/database";
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    const { id } = await params;
     const searchParams = request.nextUrl.searchParams;
     const merchantNameParam = searchParams.get("merchantName");
-    
+
     let merchantName: string;
-    
+
     if (merchantNameParam) {
       // Merchant name provided as query parameter (for merchants from transactions)
       merchantName = merchantNameParam;
     } else {
       // Try to get merchant by ID first
-      const merchant = database.getMerchant(params.id);
+      const merchant = database.getMerchant(id);
       
       if (merchant) {
         // Merchant exists in merchants table
@@ -24,7 +25,7 @@ export async function GET(
       } else {
         // Merchant might not exist in merchants table yet (auto-populated from transactions)
         // Use the ID as merchant name (fallback)
-        merchantName = params.id;
+        merchantName = id;
       }
     }
     

@@ -3,10 +3,11 @@ import { database } from "@/lib/database";
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const merchant = database.getMerchant(params.id);
+    const { id } = await params;
+    const merchant = database.getMerchant(id);
     if (!merchant) {
       return NextResponse.json(
         { error: "Merchant not found" },
@@ -25,22 +26,23 @@ export async function GET(
 
 export async function PATCH(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    const { id } = await params;
     const body = await request.json();
-    const { 
-      name, 
-      default_category_id, 
-      default_tag_id, 
-      default_entity_id, 
+    const {
+      name,
+      default_category_id,
+      default_tag_id,
+      default_entity_id,
       notes,
       logo_url,
       confidence_level,
       is_confirmed
     } = body;
 
-    let merchant = database.getMerchant(params.id);
+    let merchant = database.getMerchant(id);
     
     // If merchant doesn't exist by ID, try to find by name or create it
     if (!merchant) {
@@ -101,10 +103,11 @@ export async function PATCH(
 
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const merchant = database.getMerchant(params.id);
+    const { id } = await params;
+    const merchant = database.getMerchant(id);
     if (!merchant) {
       return NextResponse.json(
         { error: "Merchant not found" },
@@ -112,7 +115,7 @@ export async function DELETE(
       );
     }
 
-    database.deleteMerchant(params.id);
+    database.deleteMerchant(id);
     return NextResponse.json({ success: true });
   } catch (error) {
     console.error("Error deleting merchant:", error);

@@ -3,9 +3,10 @@ import { database } from "@/lib/database";
 
 export async function POST(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    const { id } = await params;
     const body = await request.json();
     const { target_merchant_id } = body;
 
@@ -16,7 +17,7 @@ export async function POST(
       );
     }
 
-    const sourceMerchant = database.getMerchant(params.id);
+    const sourceMerchant = database.getMerchant(id);
     const targetMerchant = database.getMerchant(target_merchant_id);
 
     if (!sourceMerchant || !targetMerchant) {
@@ -26,7 +27,7 @@ export async function POST(
       );
     }
 
-    database.mergeMerchants(params.id, target_merchant_id);
+    database.mergeMerchants(id, target_merchant_id);
 
     return NextResponse.json({ 
       success: true,

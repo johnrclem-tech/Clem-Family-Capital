@@ -3,10 +3,11 @@ import { database } from "@/lib/database";
 
 export async function POST(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const merchant = database.getMerchant(params.id);
+    const { id } = await params;
+    const merchant = database.getMerchant(id);
     if (!merchant) {
       return NextResponse.json(
         { error: "Merchant not found" },
@@ -14,8 +15,8 @@ export async function POST(
       );
     }
 
-    database.confirmMerchant(params.id);
-    const updated = database.getMerchant(params.id);
+    database.confirmMerchant(id);
+    const updated = database.getMerchant(id);
 
     return NextResponse.json({ merchant: updated });
   } catch (error) {
