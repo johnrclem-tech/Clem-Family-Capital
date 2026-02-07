@@ -333,7 +333,7 @@ export async function POST(request: NextRequest) {
               try {
                 database.upsertSecurity({
                   plaid_security_id: security.security_id,
-                  name: security.name,
+                  name: security.name || 'Unknown Security',
                   ticker_symbol: security.ticker_symbol || null,
                   isin: security.isin || null,
                   cusip: security.cusip || null,
