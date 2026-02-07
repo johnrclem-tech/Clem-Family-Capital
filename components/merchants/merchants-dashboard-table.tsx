@@ -84,9 +84,9 @@ export function MerchantsDashboardTable({
       },
       {
         header: "Category",
-        accessorKey: "category",
+        accessorKey: "default_category_id",
         cell: ({ row }) => {
-          const category = categories?.find((c) => c.id === row.original.category_id);
+          const category = categories?.find((c) => c.id === row.original.default_category_id);
           if (!category) {
             return (
               <span className="text-muted-foreground text-sm whitespace-nowrap">Uncategorized</span>
@@ -118,23 +118,22 @@ export function MerchantsDashboardTable({
         size: 180,
       },
       {
-        header: "Tags",
-        accessorKey: "tags",
+        header: "Default Tag",
+        accessorKey: "default_tag_id",
         cell: ({ row }) => {
-          const merchantTags = row.original.tag_ids && tags
-            ? tags.filter((t) => row.original.tag_ids?.includes(t.id))
-            : [];
+          const tag = tags?.find((t) => t.id === row.original.default_tag_id);
+          if (!tag) {
+            return (
+              <span className="text-muted-foreground text-sm whitespace-nowrap">None</span>
+            );
+          }
           return (
-            <div className="flex gap-1 flex-wrap">
-              {merchantTags.map((tag) => (
-                <Badge key={tag.id} variant="secondary" className="text-xs">
-                  {tag.name}
-                </Badge>
-              ))}
-            </div>
+            <Badge variant="secondary" className="text-xs whitespace-nowrap">
+              {tag.name}
+            </Badge>
           );
         },
-        size: 200,
+        size: 150,
       },
       {
         header: "Transactions",
@@ -156,19 +155,6 @@ export function MerchantsDashboardTable({
           );
         },
         size: 140,
-      },
-      {
-        header: "Avg Amount",
-        accessorKey: "avg_amount",
-        cell: ({ row }) => {
-          const amount = row.original.avg_amount || 0;
-          return (
-            <div className="text-right">
-              {formatCurrency(Math.abs(amount))}
-            </div>
-          );
-        },
-        size: 120,
       },
       {
         id: "actions",
