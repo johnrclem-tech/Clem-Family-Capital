@@ -69,7 +69,7 @@ export function TransactionDetailSheet({
   }, [transaction]);
 
   // Handle merchant selection and auto-apply defaults
-  const handleMerchantChange = (merchantName: string) => {
+  const handleMerchantChange = (merchantName: string | null) => {
     // Find merchant first
     const merchant = merchantName ? merchants.find((m) => m.name === merchantName) : null;
     
