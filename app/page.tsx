@@ -603,10 +603,6 @@ export default function HomePage() {
                   onTransactionUpdate: handleSaveTransaction,
                 })}
                 data={filteredTransactions}
-                categories={regularCategories}
-                tags={tags}
-                merchantNames={merchantNames}
-                onTransactionUpdate={handleSaveTransaction}
               />
             </>
           )}
