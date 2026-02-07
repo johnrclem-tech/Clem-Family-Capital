@@ -10,7 +10,13 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
-import { Select } from "@/components/ui/select";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { Label } from "@/components/ui/label";
 import { MerchantWithStats } from "@/lib/database";
 import { GitMerge } from "lucide-react";
@@ -78,17 +84,20 @@ export function MergeMerchantsDialog({
           <div>
             <Label htmlFor="target-merchant">Target Merchant</Label>
             <Select
-              id="target-merchant"
               value={targetMerchantId}
-              onChange={(e) => setTargetMerchantId(e.target.value)}
-              className="mt-1.5"
+              onValueChange={setTargetMerchantId}
             >
-              <option value="">Select a merchant...</option>
-              {targetOptions.map((merchant) => (
-                <option key={merchant.id} value={merchant.id}>
-                  {merchant.name} ({merchant.transaction_count} transactions)
-                </option>
-              ))}
+              <SelectTrigger className="mt-1.5">
+                <SelectValue placeholder="Select a merchant..." />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="">Select a merchant...</SelectItem>
+                {targetOptions.map((merchant) => (
+                  <SelectItem key={merchant.id} value={merchant.id}>
+                    {merchant.name} ({merchant.transaction_count} transactions)
+                  </SelectItem>
+                ))}
+              </SelectContent>
             </Select>
           </div>
 
